@@ -1,0 +1,14 @@
+#!/bin/sh
+
+# This script will run on every deploy action
+# before the Procfile is invoked
+
+# NOTE: This script must be idempotent!
+
+# Some things to do in here:
+
+# reinstall deps
+# compile code/assets
+# prepare for a `foreman start`
+
+exit 0

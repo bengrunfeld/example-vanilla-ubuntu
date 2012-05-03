@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# This script will run on the instance's first boot only
+
+exit 0
