@@ -31,7 +31,7 @@ To make a Generic application work with OpDemand, you will need to conform to 3 
  * Use **Foreman** to manage processes
  * Use **Environment Variables** to manage configuration
 
-If you're deploying the example application, it already conforms to these requirements.  If you're in a rush, skip to [Create a Platform](#create-a-new-platform).
+If you're deploying the example application, it already conforms to these requirements.  If you're in a rush, skip to [Create a Platform](#create).
 
 ### Use bin/deploy to manage dependencies
 
@@ -58,8 +58,7 @@ This tells OpDemand to run one web process using the `server.sh` file in the rep
 
 OpDemand uses environment variables to manage your application's configuration.  For example, the application listener must use the value of the `APPLICATION_PORT` environment variable.  The same is true for external services like databases, caches and queues which use environment variables like `DATABASE_HOST` and `DATABASE_PORT`.
 
-Create a new Platform
----------------------
+<h2 id="create">Create a new Platform</h2>
 Use the `opdemand list` command to list the available infrastructure templates:
 
 	$ opdemand list | grep vanilla
