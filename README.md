@@ -18,9 +18,9 @@ The simplest way to get started is by forking OpDemand's sample application loca
 
 After forking the project, clone it to your local workstation using the SSH-style URL:
 
-    $ git clone git@github.com:gabrtv/example-vanilla-ubuntu.git example-vanilla-ubuntu
+    $ git clone git@github.com:mygithubuser/example-vanilla-ubuntu.git example-vanilla-ubuntu
     $ cd example-vanilla-ubuntu
-    
+
 If you want to use an existing application, no problem -- just make sure you've cloned it from GitHub.
 
 Prepare your Application
@@ -28,14 +28,14 @@ Prepare your Application
 To make a Generic application work with OpDemand, you will need to conform to 3 basic requirements:
 
  * Use **bin/deploy** to manage dependencies
- * Use **Foreman** to manage processes
+ * Use [**foreman**](http://ddollar.github.com/foreman/) to manage processes
  * Use **Environment Variables** to manage configuration
 
-If you're deploying the example application, it already conforms to these requirements.  If you're in a rush, skip to [Create a Platform](#create).
+If you're deploying the example application, it already conforms to these requirements.  If you're in a rush, skip to [Create a new Service](#create-a-new-service).
 
 ### Use bin/deploy to manage dependencies
 
-On every deploy action, OpDemand will run the `bin/deploy` script on all application workers to ensure dependencies are up to date. A few notes about this mechanism: 
+On every deploy action, OpDemand will run the `bin/deploy` script on all application workers to ensure dependencies are up to date. A few notes about this mechanism:
 
 * The script needs to be marked as executeable in version control (`chmod +x bin/deploy`)
 * The script can be written in any language but must include the proper `#!/bin/sh` style declaration at the top
@@ -53,12 +53,14 @@ This tells OpDemand to run one web process using the `server.sh` file in the rep
     $ export APPLICATION_PORT=8080
 	$ foreman start
     12:45:57 web.1     | started with pid 28834
-    
+
 ### Use Environment Variables to manage configuration
 
 OpDemand uses environment variables to manage your application's configuration.  For example, the application listener must use the value of the `APPLICATION_PORT` environment variable.  The same is true for external services like databases, caches and queues which use environment variables like `DATABASE_HOST` and `DATABASE_PORT`.
 
-<h2 id="create">Create a new Platform</h2>
+<a id="create-a-new-service"></a>
+Create a new Service
+---------------------
 Use the `opdemand list` command to list the available infrastructure templates:
 
 	$ opdemand list | grep vanilla
@@ -67,13 +69,13 @@ Use the `opdemand list` command to list the available infrastructure templates:
     app/vanilla/4node: Vanilla Application (4-node with ELB)
     app/vanilla/Nnode: Vanilla Application (Auto Scaling)
 
-Use the `opdemand create` command to create a new platform based on one of the templates listed.  To create an `app/vanilla/1node` platform with `app` as its handle/nickname.
+Use the `opdemand create` command to create a new service based on one of the templates listed.  To create an `app/vanilla/1node` service with `app` as its handle/nickname.
 
 	$ opdemand create app --template=app/vanilla/1node
 
-Configure the Platform
+Configure the Service
 ----------------------
-To quickly configure a platform from the command-line use `opdemand config [handle] --repository=detect`.  This will attempt to detect and install repository configuration including:
+To quickly configure a service from the command-line use `opdemand config [handle] --repository=detect`.  This will attempt to detect and install repository configuration including:
 
 * Detecting your GitHub repository URL, project and username
 * Generating and installing a secure SSH Deploy Key
@@ -85,25 +87,25 @@ More detailed configuration can be done using:
 
 Detailed configuration changes are best done via the web console, which exposes additional helpers, drop-downs and overrides.
 
-Start the Platform
+Start the Service
 ------------------
-To start your platform use the `opdemand start` command:
+To start your service use the `opdemand start` command:
 
 	$ opdemand start app
-	
-You will see real-time streaming log output as OpDemand orchestrates the platform's infrastructure and triggers the necessary SSH deployments.  Once the platform has finished starting you can access its services using an `opdemand show`.
+
+You will see real-time streaming log output as OpDemand orchestrates the service's infrastructure and triggers the necessary SSH deployments.  Once the service has finished starting you can access its services using an `opdemand show`.
 
     $ opdemand show app
 
 	Application URL (URL used to access this application)
 	http://ec2-23-20-231-188.compute-1.amazonaws.com
 
-Open the URL and you should see "Powered by OpDemand" in your browser.  To check on the status of your platforms, use the `opdemand status` command:
+Open the URL and you should see "Powered by OpDemand" in your browser.  To check on the status of your services, use the `opdemand status` command:
 
 	$ opdemand status
 	app: Vanilla Application (1-node) (status: running)
 
-Deploy the Platform
+Deploy the Service
 ----------------------
 As you make changes to your application code, push those to GitHub as you would normally.  When you're ready to deploy those changes, use the `opdemand deploy` command:
 
@@ -115,4 +117,3 @@ This will trigger an OpDemand deploy action which will -- among other things -- 
 Additional Resources
 ====================
 * <http://www.opdemand.com>
-
